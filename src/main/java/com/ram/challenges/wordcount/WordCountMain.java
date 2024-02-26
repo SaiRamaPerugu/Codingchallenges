@@ -24,7 +24,6 @@ public class WordCountMain {
 
         String command = args[0];
         String option = args[1];
-        Path path = null;
 
         if(validCommandOptions(command, option)) {
             if(command.equals("wc")) {
@@ -45,7 +44,7 @@ public class WordCountMain {
 
     public static boolean validCommandOptions(String command, String option) {
         HashMap<String, List<String>> commands = new HashMap<>();
-        commands.put("wc", new ArrayList<>(Arrays.asList("-l", "-c")));
+        commands.put("wc", new ArrayList<>(Arrays.asList("-l", "-w", "-c")));
 
         if(!commands.containsKey(command)) {
             System.out.println("Invalid command");
@@ -63,14 +62,20 @@ public class WordCountMain {
         List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
         AtomicLong wordCount = new AtomicLong();
         AtomicLong byteCount = new AtomicLong();
-        if(option.equals("-l")) {
-            System.out.println("Line count: " + lines.size());
-        } else if(option.equals("-w")) {
-            lines.forEach(line -> wordCount.addAndGet(Arrays.stream(line.split(" ")).count()));
-            System.out.println("Word count: " + wordCount.get());
-        } else if(option.equals("-c")) {
-            lines.forEach(line -> byteCount.addAndGet(line.getBytes(StandardCharsets.UTF_8).length));
-            System.out.println("ByteCount: " + byteCount.get());
+        switch(option) {
+            case "-l":
+                System.out.println("Line count: " + lines.size());
+                break;
+            case "-w":
+                lines.forEach(line -> wordCount.addAndGet(Arrays.stream(line.split(" ")).count()));
+                System.out.println("Word count: " + wordCount.get());
+                break;
+            case "-c":
+                lines.forEach(line -> byteCount.addAndGet(line.getBytes(StandardCharsets.UTF_8).length));
+                System.out.println("ByteCount: " + byteCount.get());
+                break;
+            default:
+                break;
         }
 
         System.out.println(lines);
