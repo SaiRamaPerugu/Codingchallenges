@@ -15,6 +15,7 @@ public class WordCountMain {
 
 
     public static void main(String[] args) throws Exception {
+        //test
         if(args.length == 0) {
             System.out.println("Invalid number of arguments");
             System.exit(1);
