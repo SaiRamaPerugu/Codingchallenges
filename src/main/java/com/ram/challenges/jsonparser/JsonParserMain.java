@@ -13,19 +13,39 @@ public class JsonParserMain {
     public static boolean validEnclosingChars(String json) {
         return !(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}');
     }
+
+    public static boolean validJson(String valueString) {
+        StringBuilder key = new StringBuilder();
+        if(valueString == null || valueString.isEmpty()) {
+            return false;
+        } else {
+            for(int i=0; i < valueString.length();i++) {
+                if(i == 0 && valueString.indexOf(i) == '{') {
+                    continue;
+                } else {
+                    return false;
+                }
+
+
+            }
+        }
+        return false;
+    }
 }
 
 /*
+1. Current char and top of stack
+   { - Stack is empty
+   Top of stack is { and current char is " so key begins till another " is encountered.
+   key1 = "key"
+   Push the ending " to the top of stack
+   if char is : push the char to the top of stack
+     if top of stack is :
+        store the value in a value variable.
+        if , value ends. reset the value
+   " - top of stack is { key begins, store the value of the key and push the " to top of stack
 
 
-1
-2
-3
-4
-5
-6
-7
-8
 
 Invalid
 
