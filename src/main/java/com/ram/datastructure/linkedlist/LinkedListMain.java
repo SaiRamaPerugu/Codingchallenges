@@ -4,10 +4,12 @@ public class LinkedListMain {
 
     public static void main(String[] args) {
         LinkedList linkedList = new LinkedList();
-        for(int i=0; i < 100000;i++) {
+        for(int i=1; i < 10;i++) {
             linkedList.addNode(i);
         }
         linkedList.print();
-        linkedList.printHead();
+        System.out.println();
+        linkedList.deleteNode(8);
+        linkedList.print();
     }
 }
