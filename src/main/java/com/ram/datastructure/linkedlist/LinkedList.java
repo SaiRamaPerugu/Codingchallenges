@@ -16,6 +16,22 @@ public class LinkedList {
         }
     }
 
+    public void deleteNode(int pos) {
+        int n = 1;
+        Node prev = head;
+        if(pos == 1) {
+            head = head.next;
+        } else {
+            while (n < pos - 1 && prev != null) {
+                Node cur = prev.next;
+                prev = prev.next;
+                n++;
+            }
+            if (prev.next != null)
+                prev.next = prev.next.next;
+        }
+    }
+
     public void printHead(){
         System.out.println();
         System.out.print(head.val);
