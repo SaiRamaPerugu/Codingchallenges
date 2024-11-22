@@ -4,7 +4,7 @@ public class LinkedListMain {
 
     public static void main(String[] args) {
         LinkedList linkedList = new LinkedList();
-        for(int i=0; i < 100000;i++) {
+        for(int i=0; i < 5;i++) {
             linkedList.addNode(i);
         }
         linkedList.print();
