@@ -1,20 +1,15 @@
 package com.ram.datastructure.tree.binarytree;
 
-
-import java.util.Arrays;
-import java.util.List;
-
 public class BinaryTreeMain {
 
     public static void main(String[] args) {
-        List<Integer> nums = Arrays.asList(1,2,3,10,21,23);
         BinaryTree binaryTree = new BinaryTree();
-        System.out.println("Root to begin:" + binaryTree.root());
-        binaryTree.root =  binaryTree.addNode(binaryTree.root(),1);
-        System.out.println("Root to begin:" + binaryTree.root().val);
-        binaryTree.addNode(binaryTree.root, 2);
-        binaryTree.addNode(binaryTree.root, 3);
-        binaryTree.printTree(binaryTree.root());
-        binaryTree.printInOrder(binaryTree.root());
+        binaryTree.add(10);
+        binaryTree.add(12);
+        binaryTree.add(3);
+        binaryTree.add(6);
+        binaryTree.add(8);
+        binaryTree.add(11);
+        binaryTree.printTree();
     }
 }

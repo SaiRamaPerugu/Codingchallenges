@@ -4,55 +4,57 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BinaryTree {
+
     Node root;
-
-    public Node root() {
-        return root;
+    public BinaryTree() {
+        root = null;
     }
 
-    public Node addNode(Node root, int val) {
-        if(root == null) {
-            root = new Node(val);
-            System.out.println("Val " + val + " added to root");
-            return root;
-        }
-
-        if(val < root.val) {
-            root.left = addNode(root.left, val);
-        } else if(val > root.val) {
-            root.right = addNode(root.right,val);
-        }
-
-        return root;
+    public void add(int val) {
+        root = insert(root,val);
     }
 
-    public void printTree(Node root) {
-        if (root != null) {
-            printTree(root.left);
-            System.out.print(root.val + " ");
-            printTree(root.right);
+    public Node insert(Node node, int val) {
+        if(node == null) {
+            node = new Node(val);
+            return node;
         }
+        if(val < node.val) {
+            node.left = insert(node.left,val);
+        } else if(val > node.val) {
+            node.right = insert(node.right,val);
+        }
+        return node;
     }
 
-    public void printInOrder(Node root) {
+    public void printTree() {
+        printInLineTraversal(root);
+    }
+
+    public void print(Node node) {
+        if(node == null) {
+            return;
+        }
+        print(node.left);
+        System.out.println(node.val);
+        print(node.right);
+    }
+
+    public void printInLineTraversal(Node node) {
         Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
-        Node temp = root;
-        if(temp != null) {
-            System.out.println(temp.val);
-            System.out.println("Before while loop");
-            while(!queue.isEmpty()) {
-                temp = queue.poll();
-                System.out.print(temp.val + " ");
-                if (temp.left != null) {
-                    queue.add(temp.left);
-                }
+        queue.add(node);
+        System.out.println(node.val);
+        while(!queue.isEmpty()) {
+            Node temp = queue.poll();
+            if(temp.left != null) {
+                System.out.print(temp.left.val + " ");
+                queue.add(temp.left);
+            }
 
-                if (temp.right != null) {
-                    queue.add(temp.right);
-                }
+            if(temp.right != null) {
+                System.out.println(temp.right.val);
+                queue.add(temp.right);
             }
         }
-     }
-
+    }
 }
