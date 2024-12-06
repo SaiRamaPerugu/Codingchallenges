@@ -1,11 +1,9 @@
 package com.ram.challenges.loadbalancer;
 
-import jdk.internal.util.xml.impl.Input;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 
 public class LoadBalancer {
 
@@ -21,11 +19,13 @@ public class LoadBalancer {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("New client from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                Thread.sleep(1000); // Sleep for 1 second
-                clientSocket.setSoLinger(true, 0);
-                clientSocket.close();
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                String message = bufferedReader.readLine();
+                System.out.println("Message from client: " + message);
+                out.println("Message received ok");
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
