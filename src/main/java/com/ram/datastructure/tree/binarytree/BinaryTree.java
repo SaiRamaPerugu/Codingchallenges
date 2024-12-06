@@ -6,15 +6,13 @@ import java.util.Queue;
 public class BinaryTree {
     Node root;
 
-    public Node root() {
-        return root;
+    public void insert(int val) {
+        root = addNode(root, val);
     }
 
-    public Node addNode(Node root, int val) {
+    private Node addNode(Node root, int val) {
         if(root == null) {
-            root = new Node(val);
-            System.out.println("Val " + val + " added to root");
-            return root;
+            return new Node(val);
         }
 
         if(val < root.val) {
@@ -27,11 +25,13 @@ public class BinaryTree {
     }
 
     public void printTree(Node root) {
-        if (root != null) {
-            printTree(root.left);
-            System.out.print(root.val + " ");
-            printTree(root.right);
-        }
+        if(root == null)
+            return;
+
+        printTree(root.left);
+        System.out.print(root.val + " ");
+        printTree(root.right);
+
     }
 
     public void printInOrder(Node root) {
@@ -39,7 +39,6 @@ public class BinaryTree {
         queue.add(root);
         Node temp = root;
         if(temp != null) {
-            System.out.println(temp.val);
             System.out.println("Before while loop");
             while(!queue.isEmpty()) {
                 temp = queue.poll();
