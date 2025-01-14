@@ -7,48 +7,46 @@ public class PathBetweenNodesUnionFind {
     public static void main(String[] args) {
         //int[][] edges = {{0,1},{0,2},{3,5},{5,4},{4,3}};
         int[][] edges =  {{0,7},{0,8},{6,1},{2,0},{0,4},{5,8},{4,7},{1,3},{3,5},{6,5}};
-        System.out.println(validPath(10,edges,0, 9));
+        System.out.println(validPath(9,edges,0, 1));
     }
     public static boolean validPath(int n, int[][] edges, int source, int destination) {
         //initialize array
-        int[] edge = new int[n];
-        for(int i=0; i < edge.length;i++) {
-            edge[i] = i;
+        int[] parent = new int[n];
+        int[] rank = new int[n];
+        for(int i=0; i < parent.length;i++) {
+            parent[i] = i;
+            rank[i] = 1;
         }
-        System.out.println(Arrays.toString(edge));
-        for(int[] edge1: edges) {
-            if(!find(edge, edge1[0] ,edge1[1])){
-                union(edge, edge1[0], edge1[1]);
-            }
-            System.out.println(Arrays.toString(edge));
+        System.out.println(Arrays.toString(parent));
+        for(int[] edge: edges) {
+            union(parent, rank, edge[0], edge[1]);
+            System.out.println("Parent:" + Arrays.toString(parent));
+            System.out.println("Rank: " + Arrays.toString(rank));
         }
 
-        System.out.println(Arrays.toString(edge));
-        return find(edge,source,destination);
+        return find(parent,source) == find(parent,destination);
     }
 
-    public static void union(int[] edges, int source, int destination) {
-        int x = edges[source];
-        int y = edges[destination];
-        System.out.println("Source:" + source + " destination: " + destination);
-        if(x < y) {
-            edges[destination] = x;
-            for(int i=0; i < edges.length;i++) {
-                if(edges[i] == y) {
-                    edges[i] = x;
-                }
-            }
-        } else {
-            edges[source] = y;
-            for(int i=0; i < edges.length;i++) {
-                if(edges[i] == x) {
-                    edges[i] = y;
-                }
-            }
+    public static int find(int[] parent, int x) {
+        if(parent[x] != x) {
+            parent[x] = find(parent,parent[x]);
         }
+        return parent[x];
     }
 
-    public static boolean find(int[] edges, int source, int destination) {
-        return edges[source] == edges[destination];
+    public static void union(int[] parent, int[] rank, int x, int y) {
+        int rootX = find(parent,x);
+        int rootY = find(parent,y);
+        System.out.println("RootX, rootY: " + rootX + "," + rootY);
+        if(rootX != rootY) {
+            if(rank[rootX] > rank[rootY]) {
+                parent[rootY] = rootX;
+            } else if(rank[rootX] < rank[rootY]) {
+                parent[rootX] = rootY;
+            } else {
+                parent[rootY] = rootX;
+                rank[rootX]++;
+            }
+        }
     }
 }
