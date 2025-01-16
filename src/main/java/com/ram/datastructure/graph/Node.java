@@ -5,7 +5,7 @@ import java.util.List;
 
 class Node {
     public int val;
-    public ArrayList<Node> neighbors;
+    public List<Node> neighbors;
     public Node() {
         val = 0;
         neighbors = new ArrayList<Node>();
@@ -17,5 +17,13 @@ class Node {
     public Node(int _val, ArrayList<Node> _neighbors) {
         val = _val;
         neighbors = _neighbors;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "val=" + val +
+                ", neighbors=" + neighbors +
+                '}';
     }
 }
