@@ -1,7 +1,9 @@
 package com.ram.datastructure.graph;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class CloneGraph {
 
@@ -12,58 +14,75 @@ public class CloneGraph {
             |   |
             4---3
          */
-        List<List<Integer>> adjList  = new ArrayList<>();
-        adjList.add(List.of(2,4));
-        adjList.add(List.of(1,3));
-        adjList.add(List.of(2,4));
-        adjList.add(List.of(1,3));
-        Node[] arr = new Node[5];
-        Arrays.fill(arr, null);
-        int startNode = 1;
-        for(List<Integer> list: adjList) {
-            Node node;
-            List<Node> neighbors;
-            if(arr[startNode] == null) {
-                node = new Node(startNode);
-                node.neighbors = new ArrayList<>();
-            } else {
-                node = arr[startNode];
-            }
 
-            for(Integer num: list) {
-                Node node1;
-                if(arr[num] == null) {
-                   node1 = new Node(num);
-                } else {
-                    node1 = arr[num];
-                }
-                //System.out.println(node1);
-                node.neighbors.add(node1);
-                //System.out.println(neighbors.size());
-               // System.out.println(node.neighbors.size());
-            }
-            System.out.println(node);
-            startNode++;
-        }
-        boolean[] visited = new boolean[5];
-        for(Node node: arr) {
-            System.out.println(node);
-        }
-        printGraph(arr[1], visited);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        ArrayList<Node> list1 = new ArrayList<>();
+        list1.add(node2);
+        list1.add(node4);
+        Node node1 = new Node(1, list1);
+        ArrayList<Node> list2 = new ArrayList();
+        list2.add(node1);
+        list2.add(node3);
+        node2.neighbors = list2;
+        ArrayList<Node> list3 = new ArrayList();
+        list3.add(node2);
+        list3.add(node4);
+        node3.neighbors = list3;
+        ArrayList<Node> list4 = new ArrayList();
+        list4.add(node1);
+        list4.add(node3);
+        node4.neighbors = list4;
+
+        //Node copyNode = cloneGraph(node1);
+        boolean[] visited = new boolean[101];
+        //printGraphDFS(node1, visited);
+        printGraphBFS(node1);
+        System.out.println("***********");
+        boolean[] visited1 = new boolean[101];
+        //printGraph(copyNode,visited1);
+
     }
 
-    public static void printGraph(Node node, boolean[] visited) {
-        if(node == null) {
-            return;
+    public static void dfs(Node node, Node copy, Node[] visited) {
+        visited[node.val] = copy;
+        for(Node child: node.neighbors) {
+            if(visited[child.val] == null) {
+                Node newNode = new Node(child.val);
+                copy.neighbors.add(newNode);
+                dfs(child, newNode, visited);
+            } else {
+                copy.neighbors.add(visited[child.val]);
+            }
         }
+    }
+
+
+    public static void printGraphDFS(Node node, boolean[] visited) {
         System.out.println("Parent node: " + node.val);
         visited[node.val] = true;
         for(Node child: node.neighbors) {
             if(!visited[child.val]) {
                 System.out.println(" if Child of " + node.val + " is " + child.val);
-                printGraph(child, visited);
-            } else {
-                System.out.println(" else Child of " + node.val + " is " + child.val);
+                printGraphDFS(child, visited);
+            }
+        }
+    }
+
+    public static void printGraphBFS(Node node) {
+
+        Queue<Node> queue = new LinkedList<>();
+        boolean[] visited = new boolean[101];
+        queue.add(node);
+
+        while(!queue.isEmpty()) {
+            Node temp = queue.poll();
+            if(!visited[temp.val]) {
+                System.out.println(temp.val);
+                List<Node> neighbors = temp.neighbors;
+                queue.addAll(neighbors);
+                visited[temp.val] = true;
             }
         }
     }
@@ -72,6 +91,7 @@ public class CloneGraph {
         System.out.println(node);
         Node copy = new Node(node.val);
         Node[] visited = new Node[101];
+        dfs(node, copy, visited);
         //System.out.println(node.neighbors);
         return copy;
     }
