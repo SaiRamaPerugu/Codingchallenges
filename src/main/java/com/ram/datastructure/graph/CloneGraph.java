@@ -1,9 +1,6 @@
 package com.ram.datastructure.graph;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class CloneGraph {
 
@@ -35,13 +32,13 @@ public class CloneGraph {
         list4.add(node3);
         node4.neighbors = list4;
 
-        //Node copyNode = cloneGraph(node1);
+
         boolean[] visited = new boolean[101];
         //printGraphDFS(node1, visited);
         printGraphBFS(node1);
-        System.out.println("***********");
-        boolean[] visited1 = new boolean[101];
-        //printGraph(copyNode,visited1);
+        System.out.println("*************");
+        Node copyNode = cloneGraph(node1);
+        printGraphBFS(copyNode);
 
     }
 
@@ -88,11 +85,25 @@ public class CloneGraph {
     }
 
     public static Node cloneGraph(Node node) {
-        System.out.println(node);
-        Node copy = new Node(node.val);
-        Node[] visited = new Node[101];
-        dfs(node, copy, visited);
-        //System.out.println(node.neighbors);
-        return copy;
+        if(node == null) {
+            return null;
+        }
+
+        Queue<Node> queue = new LinkedList<>();
+        HashMap<Node,Node> map = new HashMap<>();
+        queue.add(node);
+        map.put(node, new Node(node.val));
+        while(!queue.isEmpty()) {
+            Node curr = queue.poll();
+            Node clone = map.get(curr);
+            for(Node neighbor: curr.neighbors) {
+                if (!map.containsKey(neighbor)) {
+                    map.put(neighbor, new Node(neighbor.val));
+                    queue.add(neighbor);
+                }
+                clone.neighbors.add(map.get(neighbor));
+            }
+        }
+        return map.get(node);
     }
 }
